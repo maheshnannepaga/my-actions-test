@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Why are you running this manually?'
+        required: true
+        default: 'Manual test run'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -44,8 +50,8 @@ jobs:
       - name: Install pytest
         run: pip install pytest
 
-      - name: Show secret is available (masked)
-        run: echo "The secret is $MY_API_KEY"
+      - name: Show reason if manual run
+        run: echo "Run reason: ${{ github.event.inputs.reason }}"
 
       - name: Run tests
         run: pytest
