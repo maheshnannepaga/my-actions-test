@@ -30,25 +30,26 @@ jobs:
       - name: Run linter
         run: flake8 .
 
-  test:
-    runs-on: ubuntu-latest
+  test-310:
     needs: lint
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-    env:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: "3.10"
+    secrets:
       MY_API_KEY: ${{ secrets.MY_API_KEY }}
-      RUN_REASON: ${{ github.event.inputs.reason }}
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install pytest
-        run: pip install pytest
-      - name: Show reason if manual run
-        run: echo "Run reason is $RUN_REASON"
-      - name: Run tests
-        run: pytest
+
+  test-311:
+    needs: lint
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: "3.11"
+    secrets:
+      MY_API_KEY: ${{ secrets.MY_API_KEY }}
+
+  test-312:
+    needs: lint
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: "3.12"
+    secrets:
+      MY_API_KEY: ${{ secrets.MY_API_KEY }}
