@@ -21,15 +21,12 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Install flake8
         run: pip install flake8
-
       - name: Run linter
         run: flake8 .
 
@@ -42,14 +39,13 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          pytho
-git add .
-git commit -m "Fix workflow_dispatch syntax using env var"
-git push
-git add .
-git commit -m "Fix workflow_dispatch syntax using env var"
-git push
+          python-version: "3.12"
+      - name: Install pytest
+        run: pip install pytest
+      - name: Show reason if manual run
+        run: echo "Run reason is $RUN_REASON"
+      - name: Run tests
+        run: pytest
