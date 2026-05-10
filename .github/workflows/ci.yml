@@ -30,26 +30,31 @@ jobs:
       - name: Run linter
         run: flake8 .
 
-  test-310:
+  test:
+    runs-on: ubuntu-latest
     needs: lint
-    uses: ./.github/workflows/reusable-test.yml
-    with:
-      python-version: "3.10"
-    secrets:
-      MY_API_KEY: ${{ secrets.MY_API_KEY }}
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install pytest
+        run: pip install pytest
+      - name: Run tests
+        run: pytest
 
-  test-311:
-    needs: lint
-    uses: ./.github/workflows/reusable-test.yml
-    with:
-      python-version: "3.11"
-    secrets:
-      MY_API_KEY: ${{ secrets.MY_API_KEY }}
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Build Docker image
+        run: do
 
-  test-312:
-    needs: lint
-    uses: ./.github/workflows/reusable-test.yml
-    with:
-      python-version: "3.12"
-    secrets:
-      MY_API_KEY: ${{ secrets.MY_API_KEY }}
+eof
