@@ -38,6 +38,7 @@ jobs:
     needs: lint
     env:
       MY_API_KEY: ${{ secrets.MY_API_KEY }}
+      RUN_REASON: ${{ github.event.inputs.reason }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -45,13 +46,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-
-      - name: Install pytest
-        run: pip install pytest
-
-      - name: Show reason if manual run
-        run: echo 'Run reason: ${{ github.event.inputs.reason }}'
-
-      - name: Run tests
-        run: pytest
+          pytho
+git add .
+git commit -m "Fix workflow_dispatch syntax using env var"
+git push
+git add .
+git commit -m "Fix workflow_dispatch syntax using env var"
+git push
