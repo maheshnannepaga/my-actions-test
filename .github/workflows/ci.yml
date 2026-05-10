@@ -33,16 +33,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: lint
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     env:
       MY_API_KEY: ${{ secrets.MY_API_KEY }}
       RUN_REASON: ${{ github.event.inputs.reason }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - name: Install pytest
         run: pip install pytest
       - name: Show reason if manual run
