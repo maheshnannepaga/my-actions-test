@@ -51,7 +51,7 @@ jobs:
         run: pip install pytest
 
       - name: Show reason if manual run
-        run: echo "Run reason: ${{ github.event.inputs.reason }}"
+        run: echo 'Run reason: ${{ github.event.inputs.reason }}'
 
       - name: Run tests
         run: pytest
